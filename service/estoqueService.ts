@@ -1,4 +1,4 @@
-import exp from "constants";
+import * as constants from "constants";
 import { readCSV, writeCSV } from "../model/readCSV";
 
 interface Item {

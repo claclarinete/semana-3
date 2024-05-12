@@ -1,4 +1,4 @@
-import service from '../service/estoqueService.ts';
+import service from '../service/estoqueService';
 
 
 export async function adicionar() {
