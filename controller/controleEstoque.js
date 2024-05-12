@@ -43,24 +43,29 @@ exports.n_produtos = exports.n_itens = exports.peso_medio = exports.valor_medio 
 var estoqueService_1 = __importDefault(require("../service/estoqueService"));
 function adicionar() {
     return __awaiter(this, void 0, void 0, function () {
-        var nome, peso, _a, valor, _b, quantidade, _c;
-        return __generator(this, function (_d) {
-            switch (_d.label) {
+        var nome, pesoInput, valorInput, quantidadeInput, peso, valor, quantidade;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
                 case 0: return [4 /*yield*/, estoqueService_1.default.prompt('Nome: ')];
                 case 1:
-                    nome = _d.sent();
-                    _a = parseFloat;
-                    return [4 /*yield*/, estoqueService_1.default.prompt('Peso: ')];
+                    nome = _a.sent();
+                    return [4 /*yield*/, estoqueService_1.default.prompt('Peso (em kg): ')];
                 case 2:
-                    peso = _a.apply(void 0, [_d.sent()]);
-                    _b = parseFloat;
+                    pesoInput = _a.sent();
                     return [4 /*yield*/, estoqueService_1.default.prompt('Valor: ')];
                 case 3:
-                    valor = _b.apply(void 0, [_d.sent()]);
-                    _c = parseInt;
+                    valorInput = _a.sent();
                     return [4 /*yield*/, estoqueService_1.default.prompt('Quantidade: ')];
                 case 4:
-                    quantidade = _c.apply(void 0, [_d.sent()]);
+                    quantidadeInput = _a.sent();
+                    // Verificações para garantir que as entradas sejam válidas
+                    if (!nome || isNaN(parseFloat(pesoInput)) || isNaN(parseFloat(valorInput)) || isNaN(parseInt(quantidadeInput))) {
+                        console.log('Entradas inválidas. Certifique-se de fornecer valores válidos para peso, valor e quantidade.');
+                        return [2 /*return*/];
+                    }
+                    peso = parseFloat(pesoInput);
+                    valor = parseFloat(valorInput);
+                    quantidade = parseInt(quantidadeInput);
                     estoqueService_1.default.adicionar(nome, peso, valor, quantidade);
                     return [2 /*return*/];
             }

@@ -115,42 +115,66 @@ var ServiceEstoque = /** @class */ (function () {
     ServiceEstoque.prototype.adicionar = function (nome, peso, valor, quantidade) {
         var itemIndex = this.estoque.findIndex(function (item) { return item.nome === nome; });
         if (itemIndex !== -1) {
+            console.log('Item já existe no estoque. Aumentando a quantidade...');
             this.estoque[itemIndex].quantidade += quantidade;
         }
         else {
             this.estoque.push({ nome: nome, peso: peso, valor: valor, quantidade: quantidade });
+            console.log('Item adicionado com sucesso!');
         }
         this.salvarEstoque();
     };
     ServiceEstoque.prototype.remover = function (nome) {
-        this.estoque = this.estoque.filter(function (item) { return item.nome !== nome; });
-        this.salvarEstoque();
+        var _this = this;
+        var itemIndex = this.estoque.findIndex(function (item) { return item.nome === nome; });
+        if (itemIndex !== -1) {
+            var item = this.estoque[itemIndex];
+            console.log("Item encontrado: ".concat(item.nome, ", peso: ").concat(item.peso, ", valor: ").concat(item.valor, ", quantidade: ").concat(item.quantidade));
+            var confirmacao = this.prompt('Tem certeza que deseja remover este item? (s/n): ');
+            confirmacao.then(function (resposta) {
+                if (resposta.toLowerCase() === 's') {
+                    _this.estoque = _this.estoque.filter(function (item) { return item.nome !== nome; });
+                    console.log('Item removido com sucesso!');
+                    _this.salvarEstoque();
+                }
+                else {
+                    console.log('Operação cancelada.');
+                }
+            });
+        }
+        else {
+            console.log('Item não encontrado.');
+        }
     };
     ServiceEstoque.prototype.listar = function () {
         console.log('Itens em estoque: ');
         this.estoque.forEach(function (item) {
-            console.log("item: ".concat(item.nome, ", peso: ").concat(item.peso, ", valor: ").concat(item.valor, ", quantidade: ").concat(item.quantidade));
+            var peso_formatado = item.peso.toFixed(3);
+            var valor_formatado = item.valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            console.log("item: ".concat(item.nome, ", peso: ").concat(peso_formatado, ", valor: ").concat(valor_formatado, ", quantidade: ").concat(item.quantidade));
         });
     };
     ServiceEstoque.prototype.valor_total = function () {
         var v_total = this.estoque.reduce(function (acc, item) { return acc + item.valor * item.quantidade; }, 0);
-        console.log("Valor total: ".concat(v_total));
+        var v_total_formatado = v_total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        console.log("Valor total: ".concat(v_total_formatado));
     };
     ServiceEstoque.prototype.peso_total = function () {
         var p_total = this.estoque.reduce(function (acc, item) { return acc + item.peso * item.quantidade; }, 0);
-        console.log("Peso total: ".concat(p_total));
+        console.log("Peso total: ".concat(p_total, " kg"));
     };
     ServiceEstoque.prototype.valor_medio = function () {
         var v_total = this.estoque.reduce(function (acc, item) { return acc + item.valor * item.quantidade; }, 0);
         var q_total = this.estoque.reduce(function (acc, item) { return acc + item.quantidade; }, 0);
         var v_medio = v_total / q_total;
-        console.log("Valor m\u00E9dio: ".concat(v_medio));
+        var v_medio_formatado = v_medio.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        console.log("Valor m\u00E9dio: ".concat(v_medio_formatado));
     };
     ServiceEstoque.prototype.peso_medio = function () {
         var p_total = this.estoque.reduce(function (acc, item) { return acc + item.peso * item.quantidade; }, 0);
         var q_total = this.estoque.reduce(function (acc, item) { return acc + item.quantidade; }, 0);
         var p_medio = p_total / q_total;
-        console.log("Peso m\u00E9dio: ".concat(p_medio));
+        console.log("Peso m\u00E9dio: ".concat(p_medio, " kg"));
     };
     ServiceEstoque.prototype.n_itens = function () {
         var i_total = this.estoque.reduce(function (acc, item) { return acc + item.quantidade; }, 0);

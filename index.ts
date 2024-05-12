@@ -6,12 +6,12 @@ async function main() {
         console.log('1. Adicionar item');
         console.log('2. Remover item');
         console.log('3. Listar itens');
-        console.log('4. Listar total');
-        console.log('5. Listar média');
-        console.log('6. Listar peso total');
-        console.log('7. Listar peso médio');
-        console.log('8. Listar número de itens');
-        console.log('9. Listar número de produtos');
+        console.log('4. Valor total');
+        console.log('5. Peso total');
+        console.log('6. Valor médio');
+        console.log('7. Peso médio');
+        console.log('8. Mostrar quantidade de itens');
+        console.log('9. Mostrar quantidade de produtos');
         console.log('10. Sair');
 
         const opcao = parseInt(await prompt('Escolha uma opção: '));
@@ -30,10 +30,10 @@ async function main() {
                 await valor_total();
                 break;
             case 5:
-                await valor_medio();
+                await peso_total();
                 break;
             case 6:
-                await peso_total();
+                await valor_medio();
                 break;
             case 7:
                 await peso_medio();
